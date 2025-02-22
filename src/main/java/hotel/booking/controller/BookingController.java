@@ -27,6 +27,12 @@ public class BookingController {
 		return "index";	
 	}
 
+	@GetMapping("/login")
+	public String viewLogin() {
+		
+		return "login";	
+	}
+
 	@GetMapping("/bookings/new")
 	public String showNewForm(Model model) {
 		model.addAttribute("booking", new Booking());
