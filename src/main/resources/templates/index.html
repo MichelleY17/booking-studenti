@@ -29,18 +29,19 @@
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" th:classappend="${activepage == 'rooms' ? 'active': ''}"
-                                th:href="@{/rooms}">ROOMS</a>
+                                th:href="@{/rooms/all}">ROOMS</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" th:classappend="${activepage == 'guests' ? 'active': ''}"
-                                th:href="@{/guests}">GUESTS</a>
+                                th:href="@{/guests/all}">GUESTS</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" th:href="@{/logout}">LOG OUT</a>
                         </li>
                     </ul>
-                    <form class="d-flex ml-auto" role="search">
-                        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                    <form class="d-flex ml-auto" role="search" th:action="@{/guests/search}" method="post">
+                        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search"
+                            name="pattern" id="pattern">
                         <button class="btn btn-secondary my-2 my-sm-0" type="submit">Search</button>
                     </form>
 
@@ -50,16 +51,30 @@
         </nav>
         <hr>
     </div>
+    <form th:action="@{/}" method="get">
     <div class="row">
-        <div class="col-10">
+        <div class="col-3">
             <h3>BOOKINGS</h3>
         </div>
+        
+        
+         <div class="col-2" style="text-align: right;">
+            <label for="sdate">Date:</label>
+            <input type="date" id="sdate" name="sdate" th:value="${sdate}" />
+        </div>
         <div class="col-2">
-            <a th:href="@{/bookings/new}" class="btn btn-primary btn-sm">New Reservation</a>
+            <button class="btn btn-primary btn-sm mb-3" type="submit">Search</button>
+            <button class="btn  btn-secondary btn-sm mb-3" type="button"
+                    onclick="document.getElementById('sdate').value = ''">Reset</button>
+        </div>
+ 
+        
 
+        <div class="col-5" style="text-align: right;">
+            <a th:href="@{/bookings/new}" class="btn btn-primary btn-sm">New Reservation</a>
         </div>
     </div>
-
+</form>
 
 
 
@@ -69,20 +84,23 @@
                 <th>ID</th>
                 <th>checkIn</th>
                 <th>checkOut</th>
-                <th>totalAmount</th>
                 <th>Guest</th>
                 <th>Room</th>
+                <th>Type</th>
+                <th>Total</th>
                 <th colspan="2">Actions</th>
             </tr>
         </thead>
         <tbody>
             <tr th:each="reservation : ${bookings}">
                 <td th:text="${reservation.id}">1</td>
-                <td th:text="${reservation.checkIn}">101</td>
-                <td th:text="${reservation.checkOut}">Single</td>
-                <td th:text="${reservation.totalAmount}" style="text-align: right;">100.00</td>
-                <td th:text="${reservation.guest}">Guest</td>
-                <td th:text="${reservation.room}">Room</td>
+                <td th:text="${reservation.checkIn}"></td>
+                <td th:text="${reservation.checkOut}"></td>
+
+                <td th:text="${reservation.lastName +' '+ reservation.firstName}">Guest</td>
+                <td th:text="${reservation.roomNumber}">Room</td>
+                <td th:text="${reservation.roomType}">Single</td>
+                <td th:text="${reservation.totalAmount}">100.00</td>
                 <td>
                     <a th:href="@{/bookings/edit/{id}(id=${reservation.id})}"
                         class="btn btn-primary btn-sm mb-3">Edit</a>

@@ -15,34 +15,39 @@ import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 @Configuration
 public class SecurityConfig {
 
-    @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        http
-                .authorizeHttpRequests(authorize -> authorize
-                        .requestMatchers("/login", "/css/**").permitAll()
-                        .anyRequest().authenticated())
-                .formLogin(form -> form
-                        .loginPage("/login")
-                        .permitAll())
+        @Bean
+        public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+                http
+                                .authorizeHttpRequests(authorize -> authorize
+                                                .requestMatchers("/login", "/css/**").permitAll()
+                                                .anyRequest().authenticated())
+                                .formLogin(form -> form
+                                                .loginPage("/login")
+                                                .permitAll())
 
-                .logout((logout) -> logout.deleteCookies("JSESSIONID")
-                        .invalidateHttpSession(true)
-                        .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))   
-                        .logoutSuccessUrl("/login?logout")
-                        .permitAll());
-        // .logout((logout) -> logout.logoutSuccessUrl("/login?logout").permitAll());
+                                .logout((logout) -> logout.deleteCookies("JSESSIONID")
+                                                .invalidateHttpSession(true)
+                                                .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
+                                                .logoutSuccessUrl("/login?logout")
+                                                .permitAll());
+                // .logout((logout) -> logout.logoutSuccessUrl("/login?logout").permitAll());
 
-        return http.build();
-    }
+                return http.build();
+        }
 
-    @Bean
-    public UserDetailsService userDetailsService() {
-        UserDetails user = User.withDefaultPasswordEncoder()
-                .username("user")
-                .password("blackfriday")
-                .roles("USER")
-                .build();
+        @Bean
+        public UserDetailsService userDetailsService() {
+                UserDetails user = User.withUsername("user")
+                                                .password("{bcrypt}$2a$10$dXJ3SW6G7P50lGmMkkmwe.20cQQubK3.HZWzG3YB1tlRy.fqvM/BG")
+                                                .roles("USER")
+                                                .build();
 
-        return new InMemoryUserDetailsManager(user);
-    }
+                // UserDetails user = User.withDefaultPasswordEncoder()
+                // .username("user")
+                // .password("blackfriday")
+                // .roles("USER")
+                // .build();
+
+                return new InMemoryUserDetailsManager(user);
+        }
 }
