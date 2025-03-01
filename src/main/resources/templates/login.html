@@ -11,7 +11,7 @@
     <link rel="stylesheet" th:href="@{/css/style.css}">
 </head>
     <body>
-        <div th:include="index :: menu('')"></div>
+        <div th:insert="~{index :: menu('')}"></div>
         <div th:if="${param.error}">
             Invalid username and password.
         </div>
@@ -20,10 +20,10 @@
         </div>
         <form th:action="@{/login}" method="post">
             <div><label class="col-1" for="username"> User Name : </label>
-                <input type="text" class="col-2" name="username"/> 
+                <input type="text" class="col-2" name="username" id="username"/> 
             </div>
             <div><label class="col-1"  for="password"> Password:  </label>
-                <input type="password" class="col-2" name="password"/>
+                <input type="password" class="col-2" name="password" id="password"/>
             </div>
             <div class="col-3">&nbsp;</div>
             <div>
