@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>Edit Room</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+        crossorigin="anonymous"></script>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+
+<body>
+    <div th:include="~{index :: menu('rooms')}"></div>
+    <div class="row">
+        <div class="col-11">
+            <h3>Edit Room</h3>
+        </div>
+    </div>
+    <form action="#" th:action="@{/rooms/upd}" th:object="${room}" method="post">
+        <input type="hidden" th:field="*{id}" />
+        <div>
+            <label  class="col-1" for="roomNumber">Room Number:</label>
+            <input   class="col-2" type="text" id="roomNumber" th:field="*{roomNumber}" />
+        </div>
+        <div>
+            <label class="col-1" for="type">Type:</label>
+            <input class="col-2" type="text" id="type" th:field="*{type}" />
+        </div>
+        <div>
+            <label class="col-1" for="price">Price:</label>
+            <input class="col-2" type="number" id="price" th:field="*{price}" />
+        </div>
+        <div>
+            <label class="col-1" for="is_available">Is Available:</label>
+            <input class="col-2" type="checkbox"   name="is_available" th:checked="${is_available}" />
+        </div>
+        <div class="col-3">&nbsp;</div>
+        <div>
+            <label class="col-1"></label>
+            <button type="submit" class="col-2 btn btn-primary"> Save </button>
+        </div>
+    </form>
+</body>
+
+</html>
